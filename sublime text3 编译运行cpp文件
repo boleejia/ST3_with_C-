@@ -1,0 +1,29 @@
+1. 百度云下载mingw软件，安装mingw_gcc_g++。(具体教程可参考网上教程，如http://jingyan.baidu.com/article/455a99509c76d8a1662778f6.html) <\br>
+2. 将mingw安装路径，比如 c:/mingw/bin添加至环境变量，重启电脑。
+3. 打开sublime text 3:
+  3.1 preference->browse packages, 在打开的文件夹中新建一个文件，命名为C++.sublime-build,并添加如下内容：
+  {
+    "cmd": ["g++", "${file}", "-o", "${file_path}/${file_base_name}"],
+    "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+    "working_dir": "${file_path}",
+    "selector": "source.c, source.c++",
+
+    "variants":
+    [
+      {
+        "name": "Run",
+        "cmd": ["cmd", "/c", "g++", "${file}", "-o", "${file_path}/${file_base_name}", "&&", "cmd", "/c", "${file_path}/${file_base_name}"]
+      },
+      {
+        "name": "RunInCommand",
+        "cmd": ["cmd", "/c", "g++", "${file}", "-o", "${file_path}/${file_base_name}", "&&", "start", "cmd", "/c", "${file_path}/${file_base_name} & pause"]
+      }
+    ]
+  }
+  3.2 preferences->key binding-user,在打开的文件中添加如下内容：
+   { "keys": ["ctrl+m"], "command": "build", "args": {"variant": "RunInCommand"} }
+   ctrl+m是编译快捷键，使用其可以打开命令行窗口，即RunInCommand
+4. 在sublime text 3 中打开或新建一个cpp文件，比如hello world 程序，
+  4.1 ctrl+shift+b可以选择编译选项。选定之后，可以用ctrl+b 重复选定的编译选项
+  4.2 ctrl+m 在命令行窗口中执行程序，该方法可以处理cin  scanf等含有标准输入的程序
+  4.3 使用Makefile文件，待补充。
